@@ -1,0 +1,27 @@
+FROM --platform=linux/arm64/v8 alpine:latest
+
+LABEL maintainer="Zsolt Fatér"
+
+RUN apk update && apk add --no-cache transmission-daemon curl \
+    && rm -rf /var/cache/apk/*
+
+ENV TRANSMISSION_CONFIG=/config
+ENV TRANSMISSON_DEFAULT_CONFIG=/config-default
+ENV TRANSMISSION_DOWNLOAD_DIR=/downloads
+ENV TRANSMISSION_INCOMPLETE_DIR=/incomplete
+ENV TRANSMISSION_WATCH_DIR=/watch
+
+RUN mkdir -p ${TRANSMISSION_CONFIG} ${TRANSMISSION_DOWNLOAD_DIR} ${TRANSMISSION_INCOMPLETE_DIR} ${TRANSMISSION_WATCH_DIR}
+
+COPY settings.json $TRANSMISSON_DEFAULT_CONFIG/settings.json
+
+EXPOSE 9091
+EXPOSE 51413
+EXPOSE 51413/udp
+
+CMD echo "Transmiaasion container start..." >> $TRANSMISSION_CONFIG/transmission.log 2>&1 && \
+    if [ ! -f $TRANSMISSION_CONFIG/settings.json ]; then \
+        echo "copy settings.json ..." >> $TRANSMISSION_CONFIG/transmission.log 2>&1; \
+        cp -v $TRANSMISSON_DEFAULT_CONFIG/settings.json $TRANSMISSION_CONFIG/settings.json >> $TRANSMISSION_CONFIG/transmission.log 2>&1; \
+    fi && \
+    transmission-daemon -g $TRANSMISSION_CONFIG -f >> $TRANSMISSION_CONFIG/transmission.log 2>&1
