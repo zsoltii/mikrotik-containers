@@ -39,4 +39,4 @@ jobs:
             -t zsoltiii23/transmission-minimal:latest \
             -t zsoltiii23/transmission-minimal:${{ steps.datetime.outputs.datetime }} \
             --push .
-        working-directory: ./transmission-minimal
+        working-directory: transmission-minimal
