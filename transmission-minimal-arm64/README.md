@@ -1,5 +1,9 @@
 # transmission-minimal-arm64-alpine
 
+## Docker Hub
+
+https://hub.docker.com/r/zsoltiii23/transmission-minimal
+
 ## English
 This project provides a minimal Docker container for running the Transmission BitTorrent daemon, specifically designed for ARM64 MikroTik routers, using Alpine Linux as the base image. The container is optimized for lightweight environments and includes basic configuration and startup scripts. It exposes the necessary ports for Transmission's web interface and peer communication.
 
