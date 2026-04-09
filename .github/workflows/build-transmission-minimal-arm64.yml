@@ -36,7 +36,8 @@ jobs:
         run: |
           docker buildx build --platform linux/arm64 \
             -f Dockerfile-transmission-minimal-arm64-alpine \
+            -t zsoltiii23/transmission-minimal:alpine-${{ steps.datetime.outputs.datetime }} \
+            -t zsoltiii23/transmission-minimal:alpine-latest \
             -t zsoltiii23/transmission-minimal:latest \
-            -t zsoltiii23/transmission-minimal:${{ steps.datetime.outputs.datetime }} \
             --push .
         working-directory: transmission-minimal-arm64
